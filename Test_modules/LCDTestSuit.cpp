@@ -66,12 +66,21 @@ TEST(LCDTestSuit, verifyUnexpectedMoreThen3Symbol)
     EXPECT_THROW(LCD::getIntergerFromScreenString(l_str),invalid_argument);
 }
 
-TEST(LCDTestSuit, verifyTwoSymbol)
+TEST(LCDTestSuit, convertTwoDigitalStringToIntNum)
 {
     string l_str = ".....|..|._.._||_.";
     int l_expect = 12;
 
     EXPECT_EQ(LCD::getIntergerFromScreenString(l_str),l_expect);
 }
+
+TEST(LCDTestSuit, convertThreeDigitalStringToIntNum)
+{
+    string l_str = ".....|..|._.._||_.._.|_|..|";
+    int l_expect = 129;
+
+    EXPECT_EQ(LCD::getIntergerFromScreenString(l_str),l_expect);
+}
+
 
 
