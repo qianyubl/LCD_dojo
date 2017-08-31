@@ -13,9 +13,37 @@ TEST(LCDTestSuit, convertSingleDigitToLCDString)
 }
 
 
-TEST(LCDTestSuit, printOnScreen)
+TEST(LCDTestSuit, printOnScreenForSingalNumber)
 {
     int l_num = 7;
     LCD::printIntergerOnScreen(l_num);
 }
+
+TEST(LCDTestSuit, printOnScreenForNumbers)
+{
+    int l_num = 697;
+    LCD::printIntergerOnScreen(l_num);
+}
+
+
+TEST(LCDTestSuit, inputNumMoreThan3Digit)
+{
+    int l_num = 2345;
+    EXPECT_THROW(LCD::printIntergerOnScreen(l_num),invalid_argument);
+}
+
+TEST(LCDTestSuit, inputNegtiveNum)
+{
+    int l_num = -42;
+    cout << l_num;
+    EXPECT_THROW(LCD::printIntergerOnScreen(l_num),invalid_argument);
+}
+
+TEST(LCDTestSuit, getIntergerFromScreenString)
+{
+    string l_str = "._...|..|";
+    int l_expectNum = 7;
+    EXPECT_EQ(LCD::getIntergerFromScreenString(l_str),l_expectNum);
+}
+
 

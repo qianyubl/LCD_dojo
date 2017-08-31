@@ -14,6 +14,7 @@ public:
     LCD(){}
     static string getLCDSymbolfromTable(char p_charNum);
     static void printIntergerOnScreen(int p_num);
+    static int getIntergerFromScreenString(string p_str);
 
 private:
     static unsigned int getIndex(char p_charNum);
