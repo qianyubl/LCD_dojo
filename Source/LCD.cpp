@@ -47,7 +47,22 @@ void LCD::printIntergerOnScreen(int p_num)
 
 int LCD::getIntergerFromScreenString(string p_str)
 {
-    return find(begin(g_LCD_Table),end(g_LCD_Table), p_str.substr(0,9))- g_LCD_Table.begin();
+    if (27 < p_str.size() or 0 != p_str.size()%9)
+    {
+        throw invalid_argument("input string is invalid");
+    }
+
+    int result = 0;
+    for(int i = 0;  i< p_str.size()/9; i++)
+    {
+        auto l_iter = find(begin(g_LCD_Table), end(g_LCD_Table), p_str.substr(i*9, 9));
+        if (g_LCD_Table.end() == l_iter)
+        {
+            throw invalid_argument("input string is invalid");
+        }
+        result = result*10 +(l_iter - g_LCD_Table.begin());
+    }
+    return result;
 }
 
 

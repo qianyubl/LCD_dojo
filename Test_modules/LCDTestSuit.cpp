@@ -47,3 +47,31 @@ TEST(LCDTestSuit, getIntergerFromScreenString)
 }
 
 
+TEST(LCDTestSuit, verifyUnexpectedInputString)
+{
+    string l_str = "._...|..|.|";
+    EXPECT_THROW(LCD::getIntergerFromScreenString(l_str),invalid_argument);
+}
+
+
+TEST(LCDTestSuit, verifyUnexpectedInputWrongString)
+{
+    string l_str = "._./.|..|";
+    EXPECT_THROW(LCD::getIntergerFromScreenString(l_str),invalid_argument);
+}
+
+TEST(LCDTestSuit, verifyUnexpectedMoreThen3Symbol)
+{
+    string l_str = "._.|.|..._.|.|..._.|.|..||";
+    EXPECT_THROW(LCD::getIntergerFromScreenString(l_str),invalid_argument);
+}
+
+TEST(LCDTestSuit, verifyTwoSymbol)
+{
+    string l_str = ".....|..|._.._||_.";
+    int l_expect = 12;
+
+    EXPECT_EQ(LCD::getIntergerFromScreenString(l_str),l_expect);
+}
+
+
