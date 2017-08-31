@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -10,9 +11,12 @@ extern vector<string> g_LCD_Table;
 class LCD
 {
 public:
-    LCD(unsigned int p_num): m_num(p_num){}
-    string IntergerToSingleDigit();
-    static string convertDigital2LCDString(char p_charNum);
+    LCD(){}
+    static string convertIntergerToString(unsigned int p_num);
+    static string getLCDSymbolfromTable(char p_charNum);
+    static void printIntergerOnScreen(unsigned int p_num);
+
 private:
-    unsigned int m_num;
+    static unsigned int getIndex(char p_charNum);
+
 };
