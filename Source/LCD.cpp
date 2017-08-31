@@ -14,24 +14,18 @@ vector<string> g_LCD_Table = {"._.|.||_|",
                               "._.|_||_|",
                               "._.|_|..|"};
 
-unsigned int LCD::getIndex(char p_charNum)
+
+string LCD::getLCDSymbolfromTable(const char p_charNum)
 {
-    if(p_charNum > '9' && p_charNum < '0')
-    {
-        throw invalid_argument("invalid input number");
-    }
-    return (p_charNum-'0');
+    int l_char2IntIndex = p_charNum - '0';
+    return g_LCD_Table[l_char2IntIndex];
 }
 
-string LCD::getLCDSymbolfromTable(char p_charNum)
-{
-    return g_LCD_Table[getIndex(p_charNum)];
-}
-
-void LCD::printIntergerOnScreen(int p_num)
+void LCD::printIntergerOnScreen(const int p_num)
 {
    if(p_num > 999 || p_num < 0)
-        throw invalid_argument("input number more 3 digit");
+        throw invalid_argument("input number more than 3 digit");
+
    string l_str = to_string(p_num);
    string line1, line2, line3;
    for(auto c : l_str)
@@ -45,24 +39,34 @@ void LCD::printIntergerOnScreen(int p_num)
 
 }
 
-int LCD::getIntergerFromScreenString(string p_str)
+int LCD::getIntergerFromScreenString(const string p_str)
 {
-    if (27 < p_str.size() or 0 != p_str.size()%9)
+
+    isSizeValid(p_str);
+    int l_result = 0;
+    for(int i = 0;  i < p_str.size()/LCD_STRING_LENGTH; i++)
+    {
+        auto l_iter = find(begin(g_LCD_Table), end(g_LCD_Table), p_str.substr(i*9, 9));
+        isSymbolValid(l_iter);
+        l_result = l_result*10 + (l_iter - g_LCD_Table.begin());
+    }
+    return l_result;
+}
+
+ void LCD::isSizeValid(const string p_str)
+{
+    if (LCD_MAX_DIGIT_NUM * LCD_STRING_LENGTH < p_str.size()
+        or 0 != p_str.size() % LCD_STRING_LENGTH)
     {
         throw invalid_argument("input string is invalid");
     }
-
-    int result = 0;
-    for(int i = 0;  i< p_str.size()/9; i++)
-    {
-        auto l_iter = find(begin(g_LCD_Table), end(g_LCD_Table), p_str.substr(i*9, 9));
-        if (g_LCD_Table.end() == l_iter)
-        {
-            throw invalid_argument("input string is invalid");
-        }
-        result = result*10 +(l_iter - g_LCD_Table.begin());
-    }
-    return result;
 }
 
+void LCD::isSymbolValid(const vector<string>::iterator p_it)
+{
+    if (g_LCD_Table.end() == p_it)
+    {
+        throw invalid_argument("input string is invalid");
+    }
+}
 
